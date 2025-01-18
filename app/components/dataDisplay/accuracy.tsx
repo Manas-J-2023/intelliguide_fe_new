@@ -141,40 +141,40 @@ const DataDisplay = (UserHandle: { userHandle: { userHandle: string } }) => {
           </h2>
           <div className="text-gray-700 font-serif leading-relaxed space-y-4">
             {summary.split("\n").map((line, index) => {
-              if (line.startsWith("###")) {
-                return (
-                  <h3
-                    key={index}
-                    className="text-lg font-bold text-gray-800 mt-4"
-                  >
-                    {line.replace("###", "").trim()}
-                  </h3>
-                );
-              }
-              if (/^\d+\.\s/.test(line)) {
-                return (
-                  <li key={index} className="list-decimal ml-6">
-                    {line.replace(/^\d+\.\s/, "").trim()}
-                  </li>
-                );
-              }
+              // Remove manually written numbers (e.g., "1. " or "2. ")
+              const formattedLine = line.replace(/^\d+\.\s/, "").replace(/\*\*(.*?)\*\*/g, (_, text) => {
+                return `<strong>${text}</strong>`;
+              });
+
+              // Handle list items
               if (line.startsWith("- ")) {
                 return (
-                  <li key={index} className="list-disc ml-6">
-                    {line.replace("- ", "").trim()}
-                  </li>
+                  <li
+                    key={index}
+                    className="list-disc ml-6"
+                    dangerouslySetInnerHTML={{ __html: formattedLine }}
+                  />
                 );
               }
-              if (
-                line.includes("[") &&
-                line.includes("]") &&
-                line.includes("(") &&
-                line.includes(")")
-              ) {
+
+              // Handle numbered list
+              if (/^\d+\.\s/.test(line)) {
+                return (
+                  <li
+                    key={index}
+                    className="list-decimal ml-6"
+                    dangerouslySetInnerHTML={{ __html: formattedLine }}
+                  />
+                );
+              }
+
+              // Handle links
+              if (line.includes("[") && line.includes("]") && line.includes("(") && line.includes(")")) {
                 const textMatch = line.match(/\[.*?\]/);
                 const urlMatch = line.match(/\(.*?\)/);
                 const text = textMatch ? textMatch[0].slice(1, -1) : "";
                 const url = urlMatch ? urlMatch[0].slice(1, -1) : "";
+
                 return (
                   <p key={index}>
                     <a
@@ -188,11 +188,20 @@ const DataDisplay = (UserHandle: { userHandle: { userHandle: string } }) => {
                   </p>
                 );
               }
+
+              // Render normal paragraphs
               if (line.trim()) {
-                return <p key={index}>{line.trim()}</p>;
+                return (
+                  <p
+                    key={index}
+                    dangerouslySetInnerHTML={{ __html: formattedLine }}
+                  />
+                );
               }
+
               return null;
             })}
+
           </div>
         </div>
       </div>

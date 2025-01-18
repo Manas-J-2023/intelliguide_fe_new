@@ -46,7 +46,7 @@ export default function Home() {
               <Input
                 placeholder="Enter username"
                 ref={userHandle}
-                className="h-8 md:h-14 w-full rounded-lg p-5 border border-gray-300 shadow-md bg-[#FFF9F0] text-[#333333] text-md md:text-2xl focus:outline-none focus:ring-2 focus:ring-[#FFA45B] focus:border-transparent"
+                className="h-8 md:h-14 w-full rounded-lg p-5 border border-gray-300 shadow-md bg-[#FFF9F0] text-[#333333] text-md md:text-xl focus:outline-none focus:ring-2 focus:ring-[#FFA45B] focus:border-transparent"
                 aria-label="Username input"
               />
               <Button

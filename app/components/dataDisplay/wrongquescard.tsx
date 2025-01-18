@@ -111,15 +111,15 @@ const WrongProblemsCard = ({ userHandle }: {
   }
 
   return (
-    <div className="md:flex justify-center items-center gap-16 mt-6 mx-12 p-8 ">
+    <div className="md:flex justify-center items-center gap-8 lg:gap-16 mx-4 lg:mx-10 p-4 lg:p-8 ">
       <div>
-          <h1 className="text-5xl col-span-1 col-start-1 text-[#c9b57a] font-semibold font-serif leading-[1.25]">
-            Unsolved Questions
-          </h1>
-          <h6 className="text-gray-500 text-xs pt-3">
-            (Include TLE,RUNTIME_ERROR , SKIPPED ,etc)
-          </h6>
-        </div>
+        <h1 className="text-4xl lg:text-5xl col-span-1 col-start-1 text-[#c9b57a] font-semibold font-serif leading-[1.25]">
+          Unsolved Questions
+        </h1>
+        <h6 className="text-gray-500 text-xs pt-3 pb-3">
+          (Include TLE,RUNTIME_ERROR , SKIPPED ,etc)
+        </h6>
+      </div>
       <div className="h-96 mb-11 bg-white border-t-2 border-orange-300 rounded-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 duration-300">
         <WrongQuestionsCard wrongData={wrongData} />
       </div>
@@ -164,76 +164,91 @@ const WrongQuestionsCard = ({ wrongData }: WrongQuestionsCardProps) => {
         .flatMap((details) => details.tags)
     )
   );
+  uniqueTags.sort();
 
   return (
     <div className="overflow-y-auto hide-scrollbar h-96 mb-11">
-  <div className="m-3">
-    {/* Filter Input */}
-    <Input
-      placeholder="Filter by tags..."
-      value={filter}
-      onChange={handleFilterChange}
-      className="mb-4 block md:hidden"
-    />
+      <div className="m-3">
+        {/* Filter Input */}
+        {/* <Input
+          placeholder="Filter by tags..."
+          value={filter}
+          onChange={handleFilterChange}
+          className="mb-4 block md:hidden"
+        /> */}
 
-    {/* Tag Buttons */}
-    <div className="flex flex-wrap gap-2 mb-4">
-      {uniqueTags.map((tag, index) => (
-        <Button
-          key={index}
-          onClick={() => handleTagClick(tag)}
-          className={`px-2 py-1 text-sm rounded-full ${
-            filter === tag
-              ? "bg-gray-800 text-white"
-              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-          }`}
-        >
-          {tag}
-        </Button>
-      ))}
-    </div>
+        {/* Tag Buttons */}
+        {/* <div className="flex flex-wrap gap-2 mb-4">
+          {uniqueTags.map((tag, index) => (
+            <Button
+              key={index}
+              onClick={() => handleTagClick(tag)}
+              className={`px-2 py-1 text-sm rounded-full ${filter === tag
+                  ? "bg-gray-800 text-white"
+                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                }`}
+            >
+              {tag}
+            </Button>
+          ))}
+        </div> */}
 
-    {/* Table Container */}
-    <div className="overflow-x-auto">
-      <Table className="min-w-full">
-        <TableCaption className="text-sm">A list of your unsolved questions.</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[250px] flex items-center">
-              Problem <ClickIcon />
-            </TableHead>
-            <TableHead>Tags</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredData.length > 0 ? (
-            filteredData.map(([problem, details]) => (
-              <TableRow key={problem}>
-                <TableCell className="font-medium">
-                  <a
-                    href={`https://codeforces.com/problemset/problem/${details.contestId}/${details.index}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-blue-400 hover:underline flex w-full"
-                  >
-                    {problem}
-                  </a>
-                </TableCell>
-                <TableCell className="break-words">{details.tags.join(", ")}</TableCell>
+        <div className="flex flex-wrap gap-2 mb-4 overflow-y-auto hide-scrollbar max-h-[100px]">
+          {uniqueTags.map((tag, index) => (
+            <Button
+              key={index}
+              onClick={() => handleTagClick(tag)}
+              className={`px-2 py-1 text-sm rounded-full ${filter === tag
+                  ? "bg-gray-800 text-white"
+                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                }`}
+            >
+              {tag}
+            </Button>
+          ))}
+        </div>
+
+        {/* Table Container */}
+        <div className="overflow-x-auto">
+          <Table className="min-w-full">
+            <TableCaption className="text-sm">A list of your unsolved questions.</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="max-w-[250px] flex items-center">
+                  Problem <ClickIcon />
+                </TableHead>
+                <TableHead>Tags</TableHead>
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={2} className="text-center">
-                No matching problems found.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            </TableHeader>
+            <TableBody>
+              {filteredData.length > 0 ? (
+                filteredData.map(([problem, details]) => (
+                  <TableRow key={problem}>
+                    <TableCell className="font-medium">
+                      <a
+                        href={`https://codeforces.com/problemset/problem/${details.contestId}/${details.index}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-blue-400 hover:underline flex w-full"
+                      >
+                        {problem}
+                      </a>
+                    </TableCell>
+                    <TableCell className="break-words">{details.tags.join(", ")}</TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={2} className="text-center">
+                    No matching problems found.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
   );
 };

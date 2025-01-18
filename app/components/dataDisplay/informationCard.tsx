@@ -111,17 +111,17 @@ export function Infocard({
   const summ = userData?.summary;
   if (userData) {
     return (
-      <div className="container mx-auto p-6">
+      <div className="mx-auto p-6">
         <div className="">
-          <div className=" grid grid-cols-1 md:grid-cols-2 gap-8 relative bg-white border-t-2 border-orange-300 text-black p-8 rounded-2xl  hover:shadow-2xl transition-transform transform hover:-translate-y-1 duration-300 overflow-hidden">
-            <div>
-              <h2 className="text-xl md:text-4xl font-bold font-serif mb-6 relative z-10 tracking-wide">
+          <div className=" grid grid-cols-1 lg:grid-cols-10 gap-8 relative bg-white border-t-2 border-orange-300 text-black p-8 rounded-2xl  hover:shadow-2xl transition-transform transform hover:-translate-y-1 duration-300 overflow-hidden">
+            <div className="lg:col-span-4 xl:col-span-5 order-3 lg:order-1">
+              <h2 className="text-xl md:text-4xl font-bold font-serif mb-2 lg:mb-6 relative z-10 tracking-wide">
                 About You:
               </h2>
-              <div className="relative z-10 space-y-4 text-sm md:text-lg font-sans">{summ}</div>
+              <div className="relative z-10 space-y-4 sm:text-lg font-sans">{summ}</div>
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-500/20 to-transparent opacity-30 animate-pulse pointer-events-none"></div>
             </div>
-            <div className="bg-[#f3f4f6] rounded-xl p-6 hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center justify-center">
+            <div className="bg-[#f3f4f6] rounded-xl p-6 hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center justify-center lg:col-span-6 xl:col-span-5 order-2">
               <PORCards
                 name={`${userData.user_info[0].firstName} ${userData.user_info[0].lastName}`}
                 maxrank={`${userData.user_info[0].maxRank} (${userData.user_info[0].maxRating}) `}
@@ -144,7 +144,7 @@ export function Infocard({
               </div>
             ) : (
               <div>
-                <h2 className="text-lg md:text-4xl font-bold font-serif text-center pb-2">
+                <h2 className="text-lg md:text-4xl font-bold font-serif text-center pb-5">
                   Rating Improvement Guide:
                 </h2>
                 <div className="text:sm md:text-lg font-sans space-y-4">
@@ -152,18 +152,25 @@ export function Infocard({
                     .split("\n")
                     .map((line, index) => {
                       // Check for bullet points
+                      // if (line.startsWith("- ")) {
+                      //   return (
+                      //     <li key={index} className="list-disc ml-6">
+                      //       {line.slice(2)}
+                      //     </li>
+                      //   );
+                      // }
+                      // if (line.startsWith("**") && line.endsWith("**")) {
+                      //   return (
+                      //     <p key={index} className="font-bold">
+                      //       {line.slice(2, -2)}
+                      //     </p>
+                      //   );
+                      // }
                       if (line.startsWith("- ")) {
+                        // Replace double star quoted text with bold text
+                        const formattedLine = line.slice(2).replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
                         return (
-                          <li key={index} className="list-disc ml-6">
-                            {line.slice(2)}
-                          </li>
-                        );
-                      }
-                      if (line.startsWith("**") && line.endsWith("**")) {
-                        return (
-                          <p key={index} className="font-bold">
-                            {line.slice(2, -2)}
-                          </p>
+                          <li key={index} className="list-disc ml-6" dangerouslySetInnerHTML={{ __html: formattedLine }} />
                         );
                       }
                       return <p key={index}>{line}</p>;

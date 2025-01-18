@@ -5,7 +5,7 @@ export const BodyC = ()=>{
         <div className="text-center">
           {/* Heading */}
           <div className="flex items-center justify-center mb-4">
-            <h1 className="head_text text-[#1A1A1A] text-lg md:text-6xl font-bold transition-all duration-300 transform hover:scale-105">
+            <h1 className="head_text text-[#1A1A1A] font-bold transition-all duration-300 transform hover:scale-105">
               CodeForces IntelliGuide
             </h1>
           </div>

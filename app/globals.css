@@ -81,7 +81,7 @@
   }
 }
 .head_text {
-  @apply mt-5 text-4xl font-extrabold leading-[1.15] font-serif sm:text-6xl;
+  @apply mt-5 font-extrabold leading-[1.15] font-serif text-4xl md:text-5xl lg:text-6xl xl:text-7xl;;
 }
 
 
